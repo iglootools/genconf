@@ -1,0 +1,19 @@
+---
+profiles:
+    - name: "all"
+      abstract: true
+      extends: []
+      properties: 
+          "web.infrastructure.database.url": "jdbc:postgresql://localhost/igloofinder_test"
+          "dblogin": "igloofinder"
+      output_files: 
+          - {target: "target/${profile}/jdbc.properties", template: "genconf/jdbc.properties", template_format: "genshi-text"}
+          - {target: "target/${profile}/web.xml", template: "genconf/web.xml", template_format: "genshi-xml"}
+    - name: "development"
+      abstract: false
+      extends: ["all"]
+      properties: 
+          "web.infrastructure.database.url": "jdbc:postgresql://localhost/igloofinder_dev"
+          "debug": "true"
+      output_files:
+          - {target: "target/anything", template: "genconf/anything", template_format: "genshi-text"}

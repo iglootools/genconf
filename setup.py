@@ -20,6 +20,6 @@ setup(
 #    data_files=[('etc', ['etc/pymager-cherrypy.conf', 'etc/pymager.conf'])],
     test_suite="nose.collector",
     tests_require=['nose >= 0.11.1', 'mox >= 0.5.0'],
-    install_requires=['PyYAML >= 3.09'],
+    install_requires=['PyYAML >= 3.09', 'Genshi >= 0.6'],
     # 'distribute >=0.6.15'
 )
