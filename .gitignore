@@ -1,0 +1,13 @@
+# Python
+*.pyc
+
+# Pdev
+.pydevproject
+.settings
+
+# Setuptools
+*.egg
+dist/
+build/
+*.egg-info/
+distribute*.tar.gz
