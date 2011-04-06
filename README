@@ -1,0 +1,12 @@
+= Features =
+
+
+= Setup =
+* sudo apt-get install python-setuptools python-pkg-resources python-yaml
+
+= Create release =
+git tag v0.x
+git push origin master
+git push origin --tags
+python setup sdist
+re-create debian package (see http://www.vis.ethz.ch/de/visionen/pdfs/2010/visionen_2010_4.pdf?end=28&start=22 for a list of dependencies to install)
