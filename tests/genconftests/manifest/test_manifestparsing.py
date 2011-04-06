@@ -68,6 +68,9 @@ class ManifestParsingTestCase(unittest.TestCase):
         
         all = self.manifest.profile("all")
         assert all.properties["profile"] == "all"
+        
+    def test_should_get_all_concrete_profiles(self):
+        assert set([p.name for p in self.manifest.concrete_profiles()]) == set(["development"]) 
     
     
     
