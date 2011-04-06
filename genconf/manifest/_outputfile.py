@@ -44,10 +44,8 @@ class OutputFile(object):
         return stream.render('text').strip()
     
     def _markup_template(self):
-        def text():
-            return NewTextTemplate
-        def markup():
-            return MarkupTemplate
+        text =  NewTextTemplate
+        markup = MarkupTemplate
         strategy = None
         if(self._template_format == 'text'):
             strategy = text

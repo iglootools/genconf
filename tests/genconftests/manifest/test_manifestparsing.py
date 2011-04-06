@@ -16,9 +16,8 @@
 
 import unittest
 from genconf.manifest import ManifestParser
-from pkg_resources import resource_string
+from genconftests import samples
 
-SIMPLE_MANIFEST = resource_string('genconftests', 'simple.yaml') 
 NUMBER_OF_AUTO_GENERATED_PROPERTIES = 1
     
 class ManifestParsingTestCase(unittest.TestCase):
@@ -26,7 +25,7 @@ class ManifestParsingTestCase(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         self.parser = ManifestParser()
-        self.manifest = self.parser.parse(SIMPLE_MANIFEST)
+        self.manifest = self.parser.parse(samples.SIMPLE_MANIFEST)
         
     def test_should_parse_simple_manifest(self): 
         assert len(self.manifest.profiles) == 2
