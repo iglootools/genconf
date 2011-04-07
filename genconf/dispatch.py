@@ -26,7 +26,7 @@ class PrintProgressListener(DefaultGenConfEventListener):
         self.exit = 0
     def on_manifest_parsed(self, manifest_path, manifest):
         print("Using Manifest [%s] and will generate files for %s:" %(manifest_path, [p.name for p in manifest.concrete_profiles()]))
-    def on_before_file_update(self, filename, content):
+    def on_before_file_update(self, filename):
         print("  Updating file: %s" % (filename,))
     def on_after_file_update(self, filename, content):
         pass

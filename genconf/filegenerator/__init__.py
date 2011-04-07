@@ -47,12 +47,12 @@ class FileGenerator(object):
             file_event_listener.on_before_profile(p)
             for f in p.output_files:
                 filename = os.path.join(self._targetdir, f.target_path)
+                file_event_listener.on_before_file_update(filename)
                 try:                    
                     directory = os.path.dirname(filename)
                     if not os.path.exists(directory):
                         os.makedirs(directory)
                     content = f.render(self._template_loader)
-                    file_event_listener.on_before_file_update(filename, content)
                     with codecs.open(filename, "wb", encoding="utf-8") as f:
                         f.write(content)
                     file_event_listener.on_after_file_update(filename, content)
