@@ -24,7 +24,7 @@ class ProfileTestCase(unittest.TestCase):
         unittest.TestCase.setUp(self)
     
     def test_should_override_properties(self):
-        assert development_profile.properties['web.infrastructure.database.url'] == 'jdbc:postgresql://localhost/igloofinder_dev'
+        assert development_profile.properties['web_infrastructure_database_url'] == 'jdbc:postgresql://localhost/igloofinder_dev'
         
     def test_should_inherit_properties(self):
         assert len(development_profile.properties) == 3 + NUMBER_OF_AUTO_GENERATED_PROPERTIES
@@ -34,7 +34,7 @@ class ProfileTestCase(unittest.TestCase):
         assert len(development_profile.output_files) == 3
         
     def test_should_generate_filenames_based_on_given_profile(self):
-        assert set([file.target_path for file in development_profile.output_files]) == set(["target/development/jdbc.properties", "target/development/web.xml", "target/anything"])
+        assert set([file.target_path for file in development_profile.output_files]) == set(["target/development/jdbc.properties", "target/development/some.xml", "target/sometext"])
 
     def test_properties_should_contain_automatic_entries(self):
         assert development_profile.properties['profile'] == 'development'

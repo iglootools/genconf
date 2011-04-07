@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<myxml>Current profile: ${profile}. Database: ${web_infrastructure_database_url}</myxml>

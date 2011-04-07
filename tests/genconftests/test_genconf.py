@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-
+import os
 import tempfile
 import unittest
 from genconf import GenConf
@@ -31,6 +31,9 @@ class GenConfTestCase(unittest.TestCase):
         
     def test_should_generate_all_files(self): 
         self.genconf.generate()
+        assert os.path.exists(os.path.join(self._tmpdirectory, 'target', 'development', 'jdbc.properties')) == True
+        assert os.path.exists(os.path.join(self._tmpdirectory, 'target', 'development', 'some.xml')) == True
+        assert os.path.exists(os.path.join(self._tmpdirectory, 'target', 'sometext')) == True
     
    
     
