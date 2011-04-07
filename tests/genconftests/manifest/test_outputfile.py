@@ -37,5 +37,3 @@ class OutputFileTestCase(unittest.TestCase):
         output_file = [file for file in development_profile.output_files if file.target_path == "target/development/some.xml"][0]
         
         assert output_file.render(self._template_loader) == expected
-
-        #assert set([file.target_path for file in development_profile.output_files]) == set(["target/development/jdbc.properties", "target/development/web.xml", "target/sometext"])
