@@ -15,7 +15,7 @@ setup(
         "It is meant to be used inside software projects that need different config files"
         "depending on which environment is running for instance.",
     packages=find_packages(exclude=('tests', 'tests.*')),
-#    scripts=['pymager-standalone.py'],
+    scripts=['gc'],
     include_package_data=True,
 #    data_files=[('etc', ['etc/pymager-cherrypy.conf', 'etc/pymager.conf'])],
     test_suite="nose.collector",
