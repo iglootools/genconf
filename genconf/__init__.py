@@ -13,6 +13,5 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from genconf.filegenerator import DefaultFileEventListener
-from genconf._genconf import GenConf, DefaultGenConfEventListener
+from genconf._genconf import GenConf, DefaultGenConfEventListener, DefaultGenConfErrorListener
 from genconf.manifest import TemplateNotFoundException, TemplateProcessingException

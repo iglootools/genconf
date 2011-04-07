@@ -18,18 +18,27 @@ import sys
 import argparse
 import os
 import traceback
-from genconf import GenConf, DefaultGenConfEventListener
+from genconf import GenConf, DefaultGenConfEventListener, DefaultGenConfErrorListener
 
 class PrintProgressListener(DefaultGenConfEventListener):
-    def __init__(self, templatedir):
-        self._templatedir=templatedir
-        self.exit = 0
     def on_manifest_parsed(self, manifest_path, manifest):
         print("Using Manifest [%s] and will generate files for %s:" %(manifest_path, [p.name for p in manifest.concrete_profiles()]))
     def on_before_file_update(self, filename):
         print("  Updating file: %s" % (filename,))
     def on_after_file_update(self, filename, content):
         pass
+    def on_before_profile(self, profile):
+        print("")
+        print("Profile: %s" % (profile.name,))
+    def on_after_profile(self, profile):
+        print("... DONE")
+        print("")
+ 
+class PrintErrorListener(DefaultGenConfErrorListener):
+    def __init__(self, templatedir):
+        self._templatedir=templatedir
+        self.exit = 0
+        
     def on_template_not_found(self, template_not_found_exception):
         print >> sys.stderr, '    [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
         self._on_error()
@@ -39,13 +48,7 @@ class PrintProgressListener(DefaultGenConfEventListener):
         self._on_error()
     def on_write_error(self, target_path, ex):
         print >> sys.stderr, '    [ERROR] Error while writing file: %s. Error: %s' % (target_path, str(ex))
-        self._on_error()
-    def on_before_profile(self, profile):
-        print("")
-        print("Profile: %s" % (profile.name,))
-    def on_after_profile(self, profile):
-        print("... DONE")
-        print("")
+        self._on_error() 
         
     def _on_error(self):
         self.exit = 1
@@ -58,13 +61,19 @@ def dispatch(argv):
     "run the command specified in args"
     args = parse_args(argv)
     print_settings(args)
-    progress_listener = PrintProgressListener(args.templatedir)
+    if(args.verbose):
+        progress_listener = PrintProgressListener()
+    else:
+        progress_listener = DefaultGenConfEventListener()
+        
+    error_listener = PrintErrorListener(args.templatedir)
+    
     genconf = GenConf(manifest_path=args.manifest, 
                                templatedir=args.templatedir, 
                                targetdir=args.targetdir)
-    genconf.generate(progress_listener)
+    genconf.generate(error_listener, progress_listener)
     
-    return progress_listener.exit
+    return error_listener.exit
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(prog="gc", description='Generate configuration files.')
@@ -77,20 +86,24 @@ def parse_args(argv):
     parser.add_argument('-T','--template-directory', dest='templatedir', action='store', 
                         default=os.curdir,
                         help='the directory in which the templates reside (default: the current directory)')
+    parser.add_argument('-v','--verbose', dest='verbose', action='store_true', 
+                        default=False,
+                        help='Whether to print additional progress messages')
     args = parser.parse_args(argv)
     return args
 def print_settings(args):
-    print("""
-  ____             ____             __ 
- / ___| ___ _ __  / ___|___  _ __  / _|
-| |  _ / _ \ '_ \| |   / _ \| '_ \| |_ 
-| |_| |  __/ | | | |__| (_) | | | |  _|
- \____|\___|_| |_|\____\___/|_| |_|_|  
-                                           
-    """)
-    print("Settings: ")
-    print(" - Manifest: %s" % os.path.abspath(args.manifest))
-    print(" - Target Directory: %s" % os.path.abspath(args.targetdir))
-    print(" - Template Directory: %s" % os.path.abspath(args.templatedir))
-    print("")
+    if(args.verbose):
+        print("""
+      ____             ____             __ 
+     / ___| ___ _ __  / ___|___  _ __  / _|
+    | |  _ / _ \ '_ \| |   / _ \| '_ \| |_ 
+    | |_| |  __/ | | | |__| (_) | | | |  _|
+     \____|\___|_| |_|\____\___/|_| |_|_|  
+                                               
+        """)
+        print("Settings: ")
+        print(" - Manifest: %s" % os.path.abspath(args.manifest))
+        print(" - Target Directory: %s" % os.path.abspath(args.targetdir))
+        print(" - Template Directory: %s" % os.path.abspath(args.templatedir))
+        print("")
     
