@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+NUMBER_OF_AUTO_GENERATED_PROPERTIES = 1
 
 class Profile(object):
     def __init__(self, name, is_abstract, extends, properties, output_files):

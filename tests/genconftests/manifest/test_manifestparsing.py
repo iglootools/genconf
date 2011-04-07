@@ -16,16 +16,15 @@
 
 import unittest
 from genconf.manifest import ManifestParser
-from genconftests import samples
-
-NUMBER_OF_AUTO_GENERATED_PROPERTIES = 1
+from genconf.manifest._profile import NUMBER_OF_AUTO_GENERATED_PROPERTIES
+from tests.genconftests import samples
     
 class ManifestParsingTestCase(unittest.TestCase):
-    
+
     def setUp(self):
         unittest.TestCase.setUp(self)
         self.parser = ManifestParser()
-        self.manifest = self.parser.parse(samples.simpleManifestStream)
+        self.manifest = self.parser.parse(samples.simple_manifest_stream)
         
     def test_should_parse_simple_manifest(self): 
         assert len(self.manifest.profiles) == 2
@@ -44,33 +43,3 @@ class ManifestParsingTestCase(unittest.TestCase):
         assert len(all_profile.properties) == 2 + NUMBER_OF_AUTO_GENERATED_PROPERTIES
         assert len(all_profile._extends) == 0
     
-    def test_should_override_properties(self):
-        profile = self.manifest.profile("development")
-        assert profile.properties['web.infrastructure.database.url'] == 'jdbc:postgresql://localhost/igloofinder_dev'
-        
-    def test_should_inherit_properties(self):
-        profile = self.manifest.profile("development")
-        assert len(profile.properties) == 3 + NUMBER_OF_AUTO_GENERATED_PROPERTIES
-        assert profile.properties['dblogin'] == 'igloofinder'
-        
-    def test_should_inherit_outputfiles(self):
-        profile = self.manifest.profile("development")
-        assert len(profile.output_files) == 3
-        
-    def test_should_generate_filenames_based_on_given_profile(self):
-        profile = self.manifest.profile("development")
-        assert set([file.target_path for file in profile.output_files]) == set(["target/development/jdbc.properties", "target/development/web.xml", "target/anything"])
-
-    def test_properties_should_contain_automatic_entries(self):
-        dev = self.manifest.profile("development")
-        assert dev.properties['profile'] == 'development'
-        
-        all = self.manifest.profile("all")
-        assert all.properties["profile"] == "all"
-        
-    def test_should_get_all_concrete_profiles(self):
-        assert set([p.name for p in self.manifest.concrete_profiles()]) == set(["development"]) 
-    
-    
-    
-

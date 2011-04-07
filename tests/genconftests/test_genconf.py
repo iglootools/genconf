@@ -24,8 +24,8 @@ class GenConfTestCase(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         self._tmpdirectory = tempfile.mkdtemp()
-        self.genconf = GenConf(manifest_path=resource_filename('genconftests.samples', 'simple.yaml'), 
-                               templatedir=resource_filename('genconftests.samples', 'templates'), 
+        self.genconf = GenConf(manifest_path=resource_filename('tests.genconftests.samples', 'simple.yaml'), 
+                               templatedir=resource_filename('tests.genconftests.samples', 'templates'), 
                                targetdir=self._tmpdirectory)
 
         

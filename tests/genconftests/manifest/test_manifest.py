@@ -13,10 +13,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from pkg_resources import resource_string
-from genconf.manifest import ManifestParser
 
-simple_manifest_stream = resource_string('tests.genconftests.samples', 'simple.yaml')
-simple_manifest = ManifestParser().parse(simple_manifest_stream)
-development_profile = simple_manifest.profile("development")
-all_profile = simple_manifest.profile("all")
+import unittest
+from tests.genconftests import samples
+
+class ManifestTestCase(unittest.TestCase):
+    
+    def setUp(self):
+        unittest.TestCase.setUp(self)
+    
+    def test_should_get_all_concrete_profiles(self):
+        assert set([p.name for p in samples.simple_manifest.concrete_profiles()]) == set(["development"]) 
+    
+    
+    
+
