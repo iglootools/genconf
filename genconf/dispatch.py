@@ -31,14 +31,14 @@ class PrintProgressListener(DefaultGenConfEventListener):
     def on_after_file_update(self, filename, content):
         pass
     def on_template_not_found(self, template_not_found_exception):
-        print >> sys.stderr, '  [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
+        print >> sys.stderr, '    [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
         self._on_error()
     def on_template_processing_error(self, template_processing_exception):
-        print >> sys.stderr, '  [ERROR] Error while processing template: %s' % (str(template_processing_exception))
-        traceback.print_exc(template_processing_exception)
+        print >> sys.stderr, '    [ERROR] Error while processing template: %s. %s' % (template_processing_exception.path, str(template_processing_exception))
+        #traceback.print_exc(template_processing_exception)
         self._on_error()
     def on_write_error(self, target_path, ex):
-        print >> sys.stderr, '  [ERROR] Error while writing file: %s' % (target_path)
+        print >> sys.stderr, '    [ERROR] Error while writing file: %s. Error: %s' % (target_path, str(ex))
         self._on_error()
     def on_before_profile(self, profile):
         print("")

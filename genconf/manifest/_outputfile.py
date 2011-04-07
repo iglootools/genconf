@@ -23,7 +23,7 @@ class TemplateNotFoundException(Exception):
 
 class TemplateProcessingException(Exception):
     def __init__(self, message, path):
-        super(TemplateNotFoundException, self).__init__(message)
+        super(TemplateProcessingException, self).__init__(message)
         self.path = path
         
 class OutputFile(object):
