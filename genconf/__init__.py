@@ -16,16 +16,21 @@
 from genshi.template import TemplateLoader, loader
 import codecs
 from genconf.manifest import ManifestParser
-from genconf.filegenerator import FileGenerator
+from genconf.filegenerator import FileGenerator, DefaultFileEventListener
+
+class DefaultGenConfEventListener(DefaultFileEventListener):
+    def on_manifest_parsed(self, manifest_path, manifest):
+        pass
 
 class GenConf(object):
-    def __init__(self, manifest_path, templatedir, targetdir):
+    def __init__(self, manifest_path, templatedir, targetdir, ):
         self._template_loader = TemplateLoader([templatedir])
         self._file_generator = FileGenerator(self._template_loader, targetdir)
         self._manifest_parser = ManifestParser()
         self._manifest_path = manifest_path
     
-    def generate(self):
+    def generate(self, event_listener=DefaultGenConfEventListener()):
         with codecs.open(self._manifest_path, 'rb', 'utf-8') as f:
             manifest = self._manifest_parser.parse(f)
+            event_listener.on_manifest_parsed(self._manifest_path, manifest)
             self._file_generator.generate_files(manifest)

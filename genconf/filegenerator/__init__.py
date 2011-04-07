@@ -15,6 +15,12 @@
 """
 import os
 import codecs
+class DefaultFileEventListener(object):
+    def on_before_file_update(self, filename, content):
+        pass
+    def on_after_file_update(self, filename, content):
+        pass
+
 class FileGenerator(object):
     def __init__(self, template_loader, targetdir):
         assert template_loader is not None, "template_loader is required"
@@ -23,7 +29,7 @@ class FileGenerator(object):
         self._targetdir = targetdir
         
     
-    def generate_files(self, manifest):
+    def generate_files(self, manifest, file_event_listener=DefaultFileEventListener()):
         profiles = manifest.concrete_profiles()
         for p in profiles:
             for f in p.output_files:
@@ -32,5 +38,7 @@ class FileGenerator(object):
                 if not os.path.exists(directory):
                     os.makedirs(directory)
                 content = f.render(self._template_loader)
+                file_event_listener.on_before_file_update(filename, content)
                 with codecs.open(filename, "wb", encoding="utf-8") as f:
                     f.write(content)
+                file_event_listener.on_after_file_update(filename, content)
