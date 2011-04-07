@@ -13,8 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from genshi.template import TemplateLoader, loader
 import codecs
+import sys
+from genshi.template import TemplateLoader, loader
 from genconf.manifest import ManifestParser
 from genconf.filegenerator import FileGenerator, DefaultEventListener, DefaultErrorListener
 
@@ -22,8 +23,15 @@ class DefaultGenConfEventListener(DefaultEventListener):
     def on_manifest_parsed(self, manifest_path, manifest):
         pass
 
-class DefaultGenConfErrorListener(DefaultErrorListener):
-    pass
+class DefaultGenConfErrorListener(object):
+        
+    def on_template_not_found(self, template_not_found_exception):
+        raise Exception, str(template_not_found_exception), sys.exc_info()[2]
+    def on_template_processing_error(self, template_processing_exception):
+        raise Exception, str(template_processing_exception), sys.exc_info()[2]
+    def on_write_error(self, target_path, ex):
+        raise Exception, str(ex), sys.exc_info()[2]
+        
 
 class GenConf(object):
     def __init__(self, manifest_path, templatedir, targetdir, ):
@@ -32,7 +40,7 @@ class GenConf(object):
         self._manifest_parser = ManifestParser()
         self._manifest_path = manifest_path
     
-    def generate(self, error_listener, event_listener=DefaultGenConfEventListener()):
+    def generate(self, error_listener=DefaultGenConfErrorListener(), event_listener=DefaultGenConfEventListener()):
         with codecs.open(self._manifest_path, 'rb', 'utf-8') as f:
             manifest = self._manifest_parser.parse(f)
             event_listener.on_manifest_parsed(self._manifest_path, manifest)
