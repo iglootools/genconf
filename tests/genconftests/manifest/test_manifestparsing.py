@@ -25,7 +25,7 @@ class ManifestParsingTestCase(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
         self.parser = ManifestParser()
-        self.manifest = self.parser.parse(samples.SIMPLE_MANIFEST)
+        self.manifest = self.parser.parse(samples.simpleManifestStream)
         
     def test_should_parse_simple_manifest(self): 
         assert len(self.manifest.profiles) == 2

@@ -14,4 +14,7 @@
    limitations under the License.
 """
 from pkg_resources import resource_string
-SIMPLE_MANIFEST = resource_string('genconftests.samples', 'simple.yaml') 
+from genconf.manifest import ManifestParser
+
+simpleManifestStream = resource_string('genconftests.samples', 'simple.yaml')
+simpleManifest = ManifestParser().parse(simpleManifestStream)

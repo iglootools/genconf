@@ -29,9 +29,9 @@ class ManifestParser(object):
         
         created_profiles = dict()
         
-        def create_output_file(Profile):
+        def create_output_file(profile_provider):
             def f(data):
-                return OutputFile(Profile, 
+                return OutputFile(profile_provider, 
                                   target_path = data['target'],
                                   template_path = data['template'],
                                   template_format = data['template_format'])
