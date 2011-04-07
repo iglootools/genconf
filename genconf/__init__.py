@@ -33,4 +33,4 @@ class GenConf(object):
         with codecs.open(self._manifest_path, 'rb', 'utf-8') as f:
             manifest = self._manifest_parser.parse(f)
             event_listener.on_manifest_parsed(self._manifest_path, manifest)
-            self._file_generator.generate_files(manifest)
+            self._file_generator.generate_files(manifest, event_listener)

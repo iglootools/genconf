@@ -15,5 +15,5 @@
 """
 from genconf.manifest._manifest import Manifest
 from genconf.manifest._profile import Profile
-from genconf.manifest._outputfile import OutputFile
+from genconf.manifest._outputfile import OutputFile, TemplateNotFoundException, TemplateProcessingException
 from genconf.manifest._parser import ManifestParser

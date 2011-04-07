@@ -2,7 +2,7 @@
 
 
 = Setup =
-* sudo apt-get install python-setuptools python-pkg-resources python-yaml python-genshi
+* sudo apt-get install python-setuptools python-pkg-resources python-yaml python-genshi python-argparse
 
 = Create release =
 git tag v0.x
