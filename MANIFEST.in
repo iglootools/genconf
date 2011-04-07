@@ -1,6 +1,7 @@
 include *.txt README CHANGELOG LICENSE NOTICE CREDITS
 include *.sh
 include *.py
+include gc
 recursive-include etc *.conf
 recursive-include examples *
 recursive-include legal *.py
