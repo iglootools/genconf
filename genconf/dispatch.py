@@ -23,6 +23,7 @@ from genconf import GenConf, DefaultGenConfEventListener
 class PrintProgressListener(DefaultGenConfEventListener):
     def __init__(self, templatedir):
         self._templatedir=templatedir
+        self.exit = 0
     def on_manifest_parsed(self, manifest_path, manifest):
         print("Using Manifest [%s] and will generate files for %s:" %(manifest_path, [p.name for p in manifest.concrete_profiles()]))
     def on_before_file_update(self, filename, content):
@@ -31,17 +32,23 @@ class PrintProgressListener(DefaultGenConfEventListener):
         pass
     def on_template_not_found(self, template_not_found_exception):
         print >> sys.stderr, '  [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
+        self._on_error()
     def on_template_processing_error(self, template_processing_exception):
         print >> sys.stderr, '  [ERROR] Error while processing template: %s' % (str(template_processing_exception))
-        traceback.print_exc(template_processing_exception) 
+        traceback.print_exc(template_processing_exception)
+        self._on_error()
     def on_write_error(self, target_path, ex):
         print >> sys.stderr, '  [ERROR] Error while writing file: %s' % (target_path)
+        self._on_error()
     def on_before_profile(self, profile):
         print("")
         print("Profile: %s" % (profile.name,))
     def on_after_profile(self, profile):
         print("... DONE")
         print("")
+        
+    def _on_error(self):
+        self.exit = 1
 
 def run():
     "run the command in sys.argv"
@@ -51,13 +58,13 @@ def dispatch(argv):
     "run the command specified in args"
     args = parse_args(argv)
     print_settings(args)
-    
+    progress_listener = PrintProgressListener(args.templatedir)
     genconf = GenConf(manifest_path=args.manifest, 
                                templatedir=args.templatedir, 
                                targetdir=args.targetdir)
-    genconf.generate(PrintProgressListener(args.templatedir))
+    genconf.generate(progress_listener)
     
-    return 0
+    return progress_listener.exit
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(prog="gc", description='Generate configuration files.')
