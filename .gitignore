@@ -2,8 +2,8 @@
 *.pyc
 
 # Pdev
-.pydevproject
-.settings
+#.pydevproject
+#.settings
 
 # Setuptools
 *.egg
