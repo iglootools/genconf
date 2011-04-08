@@ -3,5 +3,10 @@ mkdir -p target/io-error
 echo first run with -v
 ../gc -v
 
+echo
 echo second run without -v
 ../gc 
+
+echo
+echo run with wrong manifest
+../gc -v -m wrong-manifest.yaml

@@ -61,6 +61,8 @@ def dispatch(argv):
     "run the command specified in args"
     args = parse_args(argv)
     print_settings(args)
+    check_args(args)
+    
     if(args.verbose):
         progress_listener = PrintProgressListener()
     else:
@@ -68,12 +70,18 @@ def dispatch(argv):
         
     error_listener = PrintErrorListener(args.templatedir)
     
+    
     genconf = GenConf(manifest_path=args.manifest, 
                                templatedir=args.templatedir, 
                                targetdir=args.targetdir)
     genconf.generate(error_listener, progress_listener)
     
     return error_listener.exit
+
+def check_args(args):
+    if not os.path.exists(args.manifest):
+        print >> sys.stderr, '[ERROR] Manifest not found: %s)' % (args.manifest,)
+        sys.exit(1)
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(prog="gc", description='Generate configuration files.')
