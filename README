@@ -5,6 +5,7 @@
 * sudo apt-get install python-setuptools python-pkg-resources python-yaml python-genshi python-argparse
 
 = Create release =
+bump version number in setup.py
 git tag v0.x
 git push origin master
 git push origin --tags
