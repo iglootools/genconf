@@ -11,3 +11,8 @@ git push origin --tags
 ./setup.py register sdist bdist_egg upload
 re-create debian package (see genconf-debian project: https://github.com/iglootools/genconf-debian )
 
+Backlog
+=======
+* decent error message when manifest not found
+* Submit package to Ubuntu PPA/Debian
+* Better open source documentation
