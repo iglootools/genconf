@@ -1,0 +1,19 @@
+= Install Dependencies =
+* sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper dh-make diff patch cdbs quilt gnupg fakeroot lintian pbuilder piuparts
+* sudo apt-get install git-buildpackage
+
+= Commands Cheat sheet =
+export DEBFULLNAME="Sami Dalouche"
+export DEBEMAIL="sami.dalouche@gmail.com"
+QUILT_PATCHES=debian/patches 
+* sudo pbuilder update / create
+* dh_make -e sami.dalouche@gmail.com -f ../src/genconf-0.1.tar.gz -c apache -p genconf
+* debuild -S -sa -us -uc
+* git-buildpackage -S -sa -uc -us --git-cleaner="(debuild clean; rm -f distribute-*)"
+* git-buildpackage -S -sa -uc -us --git-cleaner="(debuild clean; rm -f distribute-*)" --git-tag
+* sudo pbuilder build ../genconf*.dsc
+
+= Doc Links =
+* http://wiki.debian.org/PackagingWithGit
+* Introduction to ubuntu packaging: http://www.vis.ethz.ch/de/visionen/pdfs/2010/visionen_2010_4.pdf?end=28&start=22 
+* https://wiki.ubuntu.com/PackagingGuide/
