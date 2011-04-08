@@ -9,8 +9,5 @@ git tag v0.x
 git push origin master
 git push origin --tags
 ./setup.py register sdist bdist_egg upload
-re-create debian package (see http://www.vis.ethz.ch/de/visionen/pdfs/2010/visionen_2010_4.pdf?end=28&start=22 for a list of dependencies to install)
+re-create debian package (see genconf-debian project: https://github.com/iglootools/genconf-debian )
 
-
-= Debian package =
-* sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper dh-make diff patch cdbs quilt gnupg fakeroot lintian pbuilder piuparts
