@@ -31,7 +31,7 @@ class PrintProgressListener(DefaultGenConfEventListener):
         print("")
         print("Profile: %s" % (profile.name,))
     def on_after_profile(self, profile):
-        print("... DONE")
+        print("DONE")
         print("")
  
 class PrintErrorListener(DefaultGenConfErrorListener):
