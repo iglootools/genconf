@@ -1,5 +1,9 @@
 = Features =
-
+* Mixins (multiple inheritance between profiles)
+* Output filenames can use profiles' properties (e.g. target/genconf/${profile}/igloofinder-config.properties)
+* Automatic variables and functions:
+** ${profile}
+** %{truefalse(b)}
 
 = Setup =
 * sudo apt-get install python-setuptools python-pkg-resources python-yaml python-genshi python-argparse
@@ -14,5 +18,12 @@ re-create debian package (see genconf-debian project: https://github.com/iglooto
 
 Backlog
 =======
+* implement automatic overriding of properties from ~/.genconf-overrides.yaml
+* implement (inotify?) file system change notification mechanism to automatically re-generate the files
+   Linux: inotify
+   Windows: http://timgolden.me.uk/python/win32_how_do_i/watch_directory_for_changes.html
+
+* Make most fields optional in the yaml config, and detect the default template type based on the file extension
+* Better reporting for YAML parsing errors
 * Submit package to Ubuntu PPA/Debian
 * Better open source documentation

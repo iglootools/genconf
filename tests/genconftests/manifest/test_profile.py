@@ -39,3 +39,5 @@ class ProfileTestCase(unittest.TestCase):
     def test_properties_should_contain_automatic_entries(self):
         assert development_profile.properties['profile'] == 'development'
         assert all_profile.properties["profile"] == "all"
+        assert development_profile.properties['truefalse'](True) == 'true'
+        assert development_profile.properties['truefalse'](False) == 'false'
