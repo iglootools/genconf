@@ -41,3 +41,5 @@ class ProfileTestCase(unittest.TestCase):
         assert all_profile.properties["profile"] == "all"
         assert development_profile.properties['truefalse'](True) == 'true'
         assert development_profile.properties['truefalse'](False) == 'false'
+        assert development_profile.properties['either'](True, 'val1', 'val2') == 'val1'
+        assert development_profile.properties['either'](False, 'val1', 'val2') == 'val2'

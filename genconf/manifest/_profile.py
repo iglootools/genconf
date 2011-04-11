@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-NUMBER_OF_AUTO_GENERATED_PROPERTIES = 2
+NUMBER_OF_AUTO_GENERATED_PROPERTIES = 3
 
 class Profile(object):
     def __init__(self, name, is_abstract, extends, properties, output_files):
@@ -34,8 +34,15 @@ class Profile(object):
             data.update(extended_profile.properties)
         data.update(self._properties)
         data['profile'] = self.name
+        
+        def either(b, t, f):
+            if b:
+                return t
+            else:
+                return f
         data.update({
-             'truefalse': lambda b: str(b).lower()
+             'truefalse': lambda b: str(b).lower(),
+             'either': either
          })
         return data
     
