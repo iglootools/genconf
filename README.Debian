@@ -12,6 +12,7 @@ QUILT_PATCHES=debian/patches
 * git-buildpackage -S -sa -uc -us --git-cleaner="(debuild clean; rm -f distribute-*)"
 * git-buildpackage -S -sa -uc -us --git-cleaner="(debuild clean; rm -f distribute-*)" --git-tag
 * sudo pbuilder build ../genconf*.dsc
+* git-import-orig ../genconf_0.4.orig.tar.gz
 
 = Doc Links =
 * http://wiki.debian.org/PackagingWithGit
