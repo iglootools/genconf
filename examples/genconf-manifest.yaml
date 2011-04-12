@@ -1,4 +1,5 @@
 ---
+project: "example"
 profiles:
     - name: "all"
       abstract: true

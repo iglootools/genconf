@@ -1,4 +1,5 @@
 ---
+project: "syntax-error"
 profiles: there are some errors []
     - name: "all"
           - {target: "target/syntax-error", template: "templates/syntax-error", template_format: "genshi-text"}
