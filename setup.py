@@ -5,7 +5,7 @@ use_setuptools()
 from setuptools import setup, find_packages
 setup(
     name="genconf",
-    version="0.3",
+    version="0.4",
     author='Sami Dalouche',
     author_email='sami.dalouche@gmail.com',
     license='Apache-2.0',
