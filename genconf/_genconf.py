@@ -16,7 +16,7 @@
 import codecs
 import sys
 from genshi.template import TemplateLoader, loader
-from genconf.manifest import ManifestParser
+from genconf.manifest import ManifestParser, ManifestParsingError
 from genconf.filegenerator import FileGenerator, DefaultEventListener, DefaultErrorListener
 
 class DefaultGenConfEventListener(DefaultEventListener):
@@ -24,7 +24,8 @@ class DefaultGenConfEventListener(DefaultEventListener):
         pass
 
 class DefaultGenConfErrorListener(object):
-        
+    def on_manifest_parsing_error(self, manifest_path, manifest_parsing_error):
+        raise Exception, str(manifest_parsing_error), sys.exc_info()[2]
     def on_template_not_found(self, template_not_found_exception):
         raise Exception, str(template_not_found_exception), sys.exc_info()[2]
     def on_template_processing_error(self, template_processing_exception):
@@ -42,6 +43,9 @@ class GenConf(object):
     
     def generate(self, error_listener=DefaultGenConfErrorListener(), event_listener=DefaultGenConfEventListener()):
         with codecs.open(self._manifest_path, 'rb', 'utf-8') as f:
-            manifest = self._manifest_parser.parse(f)
-            event_listener.on_manifest_parsed(self._manifest_path, manifest)
-            self._file_generator.generate_files(manifest, error_listener, event_listener)
+            try:
+                manifest = self._manifest_parser.parse(f)
+                event_listener.on_manifest_parsed(self._manifest_path, manifest)
+                self._file_generator.generate_files(manifest, error_listener, event_listener)
+            except ManifestParsingError, e:
+                error_listener.on_manifest_parsing_error(self._manifest_path, e)

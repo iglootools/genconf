@@ -2,13 +2,20 @@
 mkdir -p target/io-error
 echo "gc -v (should show progress and errors)"
 ../gc -v
-echo ==============================================================
 echo
+echo ==============================================================
 echo "gc without -v (should only report errors)"
 ../gc 
+echo
 echo ==============================================================
 
-echo
 echo "Manifest not found"
 ../gc -v -m wrong-manifest.yaml
+echo
 echo ==============================================================
+
+echo "Manifest syntax error"
+../gc -v -m manifest-syntax-error.yaml
+echo
+echo ==============================================================
+

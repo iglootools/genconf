@@ -14,4 +14,4 @@
    limitations under the License.
 """
 from genconf._genconf import GenConf, DefaultGenConfEventListener, DefaultGenConfErrorListener
-from genconf.manifest import TemplateNotFoundException, TemplateProcessingException
+from genconf.manifest import TemplateNotFoundException, TemplateProcessingException, ManifestParsingError

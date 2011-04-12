@@ -38,7 +38,9 @@ class PrintErrorListener(DefaultGenConfErrorListener):
     def __init__(self, templatedir):
         self._templatedir=templatedir
         self.exit = 0
-        
+    def on_manifest_parsing_error(self, manifest_path, manifest_parsing_error):
+        print >> sys.stderr, '[ERROR] Manifest (%s) cannot be parsed: %s' % (manifest_path, str(manifest_parsing_error),)
+        self._on_error()
     def on_template_not_found(self, template_not_found_exception):
         print >> sys.stderr, '    [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
         self._on_error()

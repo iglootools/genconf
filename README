@@ -24,6 +24,5 @@ Backlog
    Windows: http://timgolden.me.uk/python/win32_how_do_i/watch_directory_for_changes.html
 
 * Make most fields optional in the yaml config, and detect the default template type based on the file extension
-* Better reporting for YAML parsing errors
 * Submit package to Ubuntu PPA/Debian
 * Better open source documentation
