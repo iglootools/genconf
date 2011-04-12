@@ -1,4 +1,5 @@
 ---
+project: "simple"
 profiles:
     - name: "all"
       abstract: true

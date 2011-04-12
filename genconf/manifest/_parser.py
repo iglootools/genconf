@@ -27,12 +27,14 @@ class ManifestParser(object):
     def __init__(self):
         pass
     
-    def parse(self, stream):
+    def parse(self, stream, overrides={}):
         """ Parse a stream and returns a Manifest object"""
         try:
             doc = yaml.load(stream)
         except Exception, e:
             raise ManifestParsingError, str(e), sys.exc_info()[2]
+        
+        project_overrides = overrides.get(doc['project'], {})
         
         created_profiles = dict()
         
@@ -57,8 +59,29 @@ class ManifestParser(object):
                            is_abstract = data['abstract'],
                            extends = map(get_profile, data['extends']),
                            properties = data['properties'],
-                           output_files = map(create_output_file(lambda: p), data['output_files']))
+                           output_files = map(create_output_file(lambda: p), data['output_files']),
+                           overrides = project_overrides.get(data['name'], {}))
             created_profiles[p.name] = p
             return p
         
-        return Manifest(map(create_profile, doc['profiles']))
+        return Manifest(doc['project'], map(create_profile, doc['profiles']))
+    
+class ManifestOverridesParsingError(Exception):
+    pass
+
+class ManifestOverridesParser(Exception):
+    def parse(self, stream):
+        """ Parse a stream and returns a dict[project,dict[profile, properties]]"""
+        try:
+            doc = yaml.load(stream)
+        except Exception, e:
+            raise ManifestOverridesParsingError, str(e), sys.exc_info()[2]
+        
+        overrides = dict()
+        for project, profile in doc.items():
+            project_profiles = dict()
+            for k,v in profile.items():
+                project_profiles[k] = v
+                
+            overrides[project] = project_profiles
+        return overrides

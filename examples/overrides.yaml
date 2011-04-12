@@ -1,0 +1,6 @@
+---
+examples:
+    all:
+        dblogin: "login-all-override"
+    development:
+         "web_infrastructure_database_url": "jdbc://development-override"

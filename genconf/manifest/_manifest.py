@@ -14,8 +14,10 @@
    limitations under the License.
 """
 class Manifest(object):
-    def __init__(self, profiles):
+    def __init__(self, project, profiles):
+        assert project is not None, "project is required"
         assert profiles is not None, "profiles is required"
+        self.project = project
         self.profiles = profiles
         
     def profile(self, name):

@@ -22,7 +22,11 @@ from genconf import GenConf, DefaultGenConfEventListener, DefaultGenConfErrorLis
 
 class PrintProgressListener(DefaultGenConfEventListener):
     def on_manifest_parsed(self, manifest_path, manifest):
-        print("Using Manifest [%s] and will generate files for %s:" %(manifest_path, [p.name for p in manifest.concrete_profiles()]))
+        print("Using Manifest '%s' [%s] and will generate files for %s:" % (manifest.project, manifest_path, [p.name for p in manifest.concrete_profiles()]))
+    def on_overrides_parsed(self, overrides_path, overrides):
+        print("Using Overrides from: %s" % (overrides_path,))
+    def on_overrides_ignored(self, overrides_path):
+        print("Overrides file not found (%s). Ignoring..." % (overrides_path,))                   
     def on_before_file_update(self, filename):
         print("  Updating file: %s" % (filename,))
     def on_after_file_update(self, filename, content):
@@ -40,6 +44,9 @@ class PrintErrorListener(DefaultGenConfErrorListener):
         self.exit = 0
     def on_manifest_parsing_error(self, manifest_path, manifest_parsing_error):
         print >> sys.stderr, '[ERROR] Manifest (%s) cannot be parsed: %s' % (manifest_path, str(manifest_parsing_error),)
+        self._on_error()
+    def on_overrides_parsing_error(self, overrides_path, overrides_parsing_error):
+        print >> sys.stderr, '[ERROR] Overrides (%s) cannot be parsed: %s. Processing without any override...' % (overrides_path, str(overrides_parsing_error),)
         self._on_error()
     def on_template_not_found(self, template_not_found_exception):
         print >> sys.stderr, '    [ERROR] Template not found: %s (Looking for templates in: %s)' % (template_not_found_exception.path, self._templatedir)
@@ -73,7 +80,8 @@ def dispatch(argv):
     error_listener = PrintErrorListener(args.templatedir)
     
     
-    genconf = GenConf(manifest_path=args.manifest, 
+    genconf = GenConf(manifest_path=args.manifest,
+                      overrides_path=args.overrides, 
                                templatedir=args.templatedir, 
                                targetdir=args.targetdir)
     genconf.generate(error_listener, progress_listener)
@@ -90,6 +98,9 @@ def parse_args(argv):
     parser.add_argument('-m','--manifest', dest='manifest', action='store', 
                         default=os.path.join(os.curdir, 'genconf-manifest.yaml'),
                         help='the genconf-YAML manifest to use (default: ./genconf-manifest.yaml)')
+    parser.add_argument('-o','--manifest-overrides', dest='overrides', action='store', 
+                        default=os.path.expanduser('~/.genconf-overrides.yaml'),
+                        help='the genconf-overrides file to use (default: ~/.genconf-overrides.yaml)')
     parser.add_argument('-t','--target-directory', dest='targetdir', action='store', 
                         default=os.curdir,
                         help='the target directory into which files will be generated (default: the current directory)')
@@ -113,6 +124,7 @@ def print_settings(args):
         """)
         print("Settings: ")
         print(" - Manifest: %s" % os.path.abspath(args.manifest))
+        print(" - Overrides: %s" % os.path.abspath(args.overrides))
         print(" - Target Directory: %s" % os.path.abspath(args.targetdir))
         print(" - Template Directory: %s" % os.path.abspath(args.templatedir))
         print("")

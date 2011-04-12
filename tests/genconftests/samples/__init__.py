@@ -14,9 +14,12 @@
    limitations under the License.
 """
 from pkg_resources import resource_string
-from genconf.manifest import ManifestParser
+from genconf.manifest import ManifestParser, ManifestOverridesParser
 
 simple_manifest_stream = resource_string('tests.genconftests.samples', 'simple.yaml')
 simple_manifest = ManifestParser().parse(simple_manifest_stream)
 development_profile = simple_manifest.profile("development")
 all_profile = simple_manifest.profile("all")
+
+simple_overrides_stream = resource_string('tests.genconftests.samples', 'simple-overrides.yaml')
+simple_overrides = ManifestOverridesParser().parse(simple_overrides_stream)

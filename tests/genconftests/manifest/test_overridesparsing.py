@@ -15,19 +15,27 @@
 """
 
 import unittest
+from genconf.manifest import ManifestOverridesParser
 from tests.genconftests import samples
-
-class ManifestTestCase(unittest.TestCase):
     
+class ManifestOverridesParsingTestCase(unittest.TestCase):
+
     def setUp(self):
         unittest.TestCase.setUp(self)
+        self.parser = ManifestOverridesParser()
+        self.overrides = self.parser.parse(samples.simple_overrides_stream)
+        
+    def test_should_parse_simple_overrides(self):
+        assert self.overrides == {
+            'simple': {
+               'all': {
+                   'dblogin': 'login-all-override'
+               },
+               'development': {
+                   'web_infrastructure_database_url': 'jdbc://development-override'
+               }
+           }
+        }
     
-    def test_should_get_all_concrete_profiles(self):
-        assert set([p.name for p in samples.simple_manifest.concrete_profiles()]) == set(["development"]) 
+   
     
-    def test_should_have_project(self):
-        assert samples.simple_manifest.project == 'simple'
-    
-    
-    
-

@@ -1,21 +1,26 @@
 #!/bin/sh
 mkdir -p target/io-error
 echo "gc -v (should show progress and errors)"
-../gc -v
+../gc -v -o no-overrides.yaml
 echo
 echo ==============================================================
 echo "gc without -v (should only report errors)"
-../gc 
+../gc -o no-overrides.yaml
 echo
 echo ==============================================================
 
 echo "Manifest not found"
-../gc -v -m wrong-manifest.yaml
+../gc -v -m wrong-manifest.yaml -o no-overrides.yaml
 echo
 echo ==============================================================
 
 echo "Manifest syntax error"
-../gc -v -m manifest-syntax-error.yaml
+../gc -v -m manifest-syntax-error.yaml -o no-overrides.yaml
+echo
+echo ==============================================================
+
+echo "gc -v -o overrides.yaml"
+../gc -v -o overrides.yaml
 echo
 echo ==============================================================
 
