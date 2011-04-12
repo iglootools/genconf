@@ -13,7 +13,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from genconf.manifest._manifest import Manifest
-from genconf.manifest._profile import Profile
-from genconf.manifest._outputfile import OutputFile, TemplateNotFoundException, TemplateProcessingException
-from genconf.manifest._parser import ManifestParser, ManifestParsingError
+class DefaultEventListener(object):
+    def on_before_profile(self, profile):
+        pass
+    def on_after_profile(self, profile):
+        pass
+    def on_before_file_update(self, filename):
+        pass
+    def on_after_file_update(self, filename, content):
+        pass

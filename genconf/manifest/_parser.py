@@ -18,6 +18,10 @@ import yaml
 from genconf.manifest._manifest import Manifest
 from genconf.manifest._profile import Profile
 from genconf.manifest._outputfile import OutputFile
+import sys
+
+class ManifestParsingError(Exception):
+    pass
 
 class ManifestParser(object):
     def __init__(self):
@@ -25,7 +29,10 @@ class ManifestParser(object):
     
     def parse(self, stream):
         """ Parse a stream and returns a Manifest object"""
-        doc = yaml.load(stream)
+        try:
+            doc = yaml.load(stream)
+        except Exception, e:
+            raise ManifestParsingError, str(e), sys.exc_info()[2]
         
         created_profiles = dict()
         
