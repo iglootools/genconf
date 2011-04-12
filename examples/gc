@@ -1,12 +1,14 @@
 #!/bin/sh
 mkdir -p target/io-error
-echo first run with -v
+echo "gc -v (should show progress and errors)"
 ../gc -v
-
+echo ==============================================================
 echo
-echo second run without -v
+echo "gc without -v (should only report errors)"
 ../gc 
+echo ==============================================================
 
 echo
-echo run with wrong manifest
+echo "Manifest not found"
 ../gc -v -m wrong-manifest.yaml
+echo ==============================================================
